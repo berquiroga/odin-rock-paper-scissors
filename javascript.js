@@ -87,67 +87,184 @@ Move your playRound function and score variables so that they’re declared insi
 Play 5 rounds by calling playRound 5 times.
 */
 
-// Create a new function named playGame that plays 5 rounds
-function playGame() {
-    // Create two new variables named humanScore and computerScore in the global scope with inital value of zero
-    var humanScore = 0;
-    var computerScore = 0;
-    var rounds = 5;
+// // Create a new function named playGame that plays 5 rounds
+// function playGame() {
+//     // Create two new variables named humanScore and computerScore in the global scope with inital value of zero
+//     var humanScore = 0;
+//     var computerScore = 0;
+//     var rounds = 5;
     
-    // Create a new function named playRound that takes as arguments both the human choice and the computer choice
-    function playRound(humanChoice, computerChoice) {
-        // Make human choice case-insensitive
-        humanChoice = humanChoice.toLowerCase()
-        switch (humanChoice) {
-            case "rock":
-                if (computerChoice == "rock") {
-                    console.log("It's a tie! Rock does not beat Rock");
-                } else if (computerChoice == "scissors") {
-                    console.log("You win! Rock beats Scissors");
-                    humanScore += 1;
-                } else {
-                    console.log("You lose! Paper beats Rock");
-                    computerScore += 1;
-                }
-                break;
-            case "paper":
-                if (computerChoice == "paper") {
-                    console.log("It's a tie! Paper does not beat Paper");
-                } else if (computerChoice == "rock") {
-                    console.log("You win! Paper beats Rock");
-                    humanScore += 1;
-                } else {
-                    console.log("You lose! Scissors beats Paper");
-                    computerScore += 1;
-                }
-                break;
-            case "scissors":
-                if (computerChoice == "scissors") {
-                    console.log("It's a tie! Scissors does not beat Scissors");
-                } else if (computerChoice == "paper") {
-                    console.log("You win! Scissors beats Paper");
-                    humanScore += 1;
-                } else {
-                    console.log("You lose! Rock beats Scissors");
-                    computerScore += 1;
-                }
-                break;
-        }
-    }
-    
-    // Play 5 rounds to declare the winner
-    for (let i = 1; i <= rounds; i++) {
-        playRound(getHumanChoice(), getComputerChoice());
-        console.log("Your score is:", humanScore);
-        console.log("The computer score is:", computerScore);
-    }
-    if (humanScore > computerScore) {
-        console.log("Congratulations! You won!");
-    } else if (computerScore > humanScore) {
-        console.log("The computer wins!");
-    } else {
-        console.log("Ladies and Gentlemen, it's a tie.");
+//     // Play 5 rounds to declare the winner
+//     for (let i = 1; i <= rounds; i++) {
+//         playRound(getHumanChoice(), getComputerChoice());
+//         console.log("Your score is:", humanScore);
+//         console.log("The computer score is:", computerScore);
+//     }
+//     if (humanScore > computerScore) {
+//         console.log("Congratulations! You won!");
+//     } else if (computerScore > humanScore) {
+//         console.log("The computer wins!");
+//     } else {
+//         console.log("Ladies and Gentlemen, it's a tie.");
+//     }
+// }
+
+// playGame();
+
+// Create a new function named playRound that takes as arguments both the human choice and the computer choice
+function playRound(humanChoice, computerChoice) {
+    // Make human choice case-insensitive
+    humanChoice = humanChoice.toLowerCase()
+    switch (humanChoice) {
+        case "rock":
+            if (computerChoice == "rock") {
+                console.log("It's a tie! Rock does not beat Rock");
+            } else if (computerChoice == "scissors") {
+                console.log("You win! Rock beats Scissors");
+                humanScore += 1;
+            } else {
+                console.log("You lose! Paper beats Rock");
+                computerScore += 1;
+            }
+            break;
+        case "paper":
+            if (computerChoice == "paper") {
+                console.log("It's a tie! Paper does not beat Paper");
+            } else if (computerChoice == "rock") {
+                console.log("You win! Paper beats Rock");
+                humanScore += 1;
+            } else {
+                console.log("You lose! Scissors beats Paper");
+                computerScore += 1;
+            }
+            break;
+        case "scissors":
+            if (computerChoice == "scissors") {
+                console.log("It's a tie! Scissors does not beat Scissors");
+            } else if (computerChoice == "paper") {
+                console.log("You win! Scissors beats Paper");
+                humanScore += 1;
+            } else {
+                console.log("You lose! Rock beats Scissors");
+                computerScore += 1;
+            }
+            break;
     }
 }
 
-playGame();
+// Create three buttons, one for each selection. Add an event listener to the buttons that call your playRound
+// function with the correct playerSelection every time a button is clicked. (you can keep the console.logs for this step)
+var computerScore = 0;
+var humanScore = 0;
+
+const rockChoice = document.createElement("button");
+const paperChoice = document.createElement("button");
+const scissorsChoice = document.createElement("button");
+
+const restartBtn = document.createElement("button");
+
+const results = document.createElement("div");
+results.textContent = "This is the score so far:";
+const humanScoreItem = document.createElement("p");
+humanScoreItem.textContent = `Human: ${humanScore}`;
+const computerScoreItem = document.createElement("p");
+computerScoreItem.textContent = `Computer: ${computerScore}`;
+
+results.appendChild(humanScoreItem);
+results.appendChild(computerScoreItem);
+
+const body = document.querySelector("body");
+body.appendChild(results);
+
+rockChoice.textContent = "Rock";
+paperChoice.textContent = "Paper";
+scissorsChoice.textContent = "Scissors";
+restartBtn.textContent = "Restart match";
+
+const btns = document.querySelector(".buttons");
+btns.appendChild(rockChoice);
+btns.appendChild(paperChoice);
+btns.appendChild(scissorsChoice);
+
+rockChoice.addEventListener("click", () => {
+    let humanChoice = "rock";
+    console.log(humanChoice);
+    playRound(humanChoice, getComputerChoice());
+    humanScoreItem.textContent = `Human: ${humanScore}`;
+    computerScoreItem.textContent = `Computer: ${computerScore}`;
+    if (computerScore == 5) {
+        alert("The computer wins!");
+        btns.appendChild(restartBtn);
+        btns.removeChild(rockChoice);
+        btns.removeChild(paperChoice);
+        btns.removeChild(scissorsChoice);
+    } else if (humanScore == 5) {
+        alert("You win!");
+        btns.appendChild(restartBtn);
+        btns.removeChild(rockChoice);
+        btns.removeChild(paperChoice);
+        btns.removeChild(scissorsChoice);
+    }
+});
+
+paperChoice.addEventListener("click", () => {
+    let humanChoice = "paper";
+    console.log(humanChoice);
+    playRound(humanChoice, getComputerChoice());
+    humanScoreItem.textContent = `Human: ${humanScore}`;
+    computerScoreItem.textContent = `Computer: ${computerScore}`;
+    if (computerScore == 5) {
+        alert("The computer wins!");
+        btns.appendChild(restartBtn);
+        btns.removeChild(rockChoice);
+        btns.removeChild(paperChoice);
+        btns.removeChild(scissorsChoice);
+    } else if (humanScore == 5) {
+        alert("You win!");
+        btns.appendChild(restartBtn);
+        btns.removeChild(rockChoice);
+        btns.removeChild(paperChoice);
+        btns.removeChild(scissorsChoice);
+    }
+});
+
+scissorsChoice.addEventListener("click", () => {
+    let humanChoice = "scissors";
+    console.log(humanChoice);
+    playRound(humanChoice, getComputerChoice());
+    humanScoreItem.textContent = `Human: ${humanScore}`;
+    computerScoreItem.textContent = `Computer: ${computerScore}`;
+    if (computerScore == 5) {
+        alert("The computer wins!");
+        btns.appendChild(restartBtn);
+        btns.removeChild(rockChoice);
+        btns.removeChild(paperChoice);
+        btns.removeChild(scissorsChoice);
+    } else if (humanScore == 5) {
+        alert("You win!");
+        btns.appendChild(restartBtn);
+        btns.removeChild(rockChoice);
+        btns.removeChild(paperChoice);
+        btns.removeChild(scissorsChoice);
+    }
+});
+
+restartBtn.addEventListener("click", () => {
+    computerScore = 0;
+    humanScore = 0;
+    alert("We are restarting the match.");
+    btns.removeChild(restartBtn);
+    btns.appendChild(rockChoice);
+    btns.appendChild(paperChoice);
+    btns.appendChild(scissorsChoice);
+    humanScoreItem.textContent = `Human: ${humanScore}`;
+    computerScoreItem.textContent = `Computer: ${computerScore}`;
+});
+
+// Add a div for displaying results and change all of your console.logs into DOM methods.
+
+
+
+
+
+
